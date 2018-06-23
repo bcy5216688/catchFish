@@ -28,6 +28,7 @@ cc.Class({
     onLoad () {
         var collisionMgr = cc.director.getCollisionManager();
         collisionMgr.enabled = true;
+        // collisionMgr.enabledDebugDraw = true;
 
         this.getNode();
         this.initWeapon();
@@ -69,14 +70,14 @@ cc.Class({
         // 添加触摸事件
         this.node.on(cc.Node.EventType.TOUCH_START, function (event) { 
             //需要将触点坐标转换成局部坐标，跟炮台一致
-            var touchPos = this.weaponNode.parent.convertTouchToNodeSpaceAR(event.touch);
-            var weaponPos = this.weaponNode.getPosition();
+            var touchPos = event.touch._point;
+            var weaponPos = this.weaponNode.parent.convertToWorldSpaceAR(this.weaponNode.getPosition());
             if (touchPos.y < weaponPos.y) 
                 return;
             var radian = Math.atan((touchPos.x - weaponPos.x) / (touchPos.y - weaponPos.y));
             var degree = radian * 180 / 3.14;
             this.weaponNode.rotation = degree;
-            var bulletLevel = this.weaponNode.getComponent("Weapon").curLevel;
+            var bulletLevel = this.weaponNode.parent.getComponent("Weapon").curLevel;
             this.shot(bulletLevel);
         }, this);
 
@@ -90,9 +91,19 @@ cc.Class({
     },
 
     initWeapon () {
-        this.weaponNode = cc.instantiate(this.prefab_weapon);
-        this.weaponNode.parent = this.weaponLayer;
-        this.weaponNode.position = cc.p(230,40);
+        var weaponPosArr = [cc.p(280,0), cc.p(1000,0), cc.p(280,720), cc.p(1000,720)];
+        for (var i = 0; i < weaponPosArr.length; i++) {
+            var weaponBaseNode = cc.instantiate(this.prefab_weapon);
+            weaponBaseNode.parent = this.weaponLayer;
+            weaponBaseNode.position = weaponPosArr[i];
+            if (i === 0) {
+                this.weaponNode = weaponBaseNode.getChildByName("spr_weapon");
+            }
+
+            if (i === 2 || i === 3) {
+                weaponBaseNode.rotation = 180;
+            }
+        }
     },
 
     shot (level) {
@@ -127,7 +138,7 @@ cc.Class({
         } else {
             netNode = cc.instantiate(this.prefab_net);
         }
-        var bulletLevel = this.weaponNode.getComponent("Weapon").curLevel;
+        var bulletLevel = this.weaponNode.parent.getComponent("Weapon").curLevel;
         netNode.getComponent("Net").init(position,this,bulletLevel);
     },
 

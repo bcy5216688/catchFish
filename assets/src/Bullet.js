@@ -4,7 +4,6 @@ cc.Class({
     properties: {
         speed: 80,
         angle: 0,         // 子弹初始角度  
-        game: null,
         attack: 10,        // 子弹攻击力，基础攻击力
         bulletLevel: 1,   // 子弹等级
     },
@@ -17,7 +16,7 @@ cc.Class({
         this.game = game;
         // 启动update函数
         this.enabled = true;
-        let weaponSite = game.weaponNode.getPosition();
+        let weaponSite = game.weaponNode.parent.convertToWorldSpaceAR(game.weaponNode.getPosition());
         this.angle = game.weaponNode.rotation;
         this.node.rotation = this.angle;
         let bpos = cc.p(weaponSite.x + 50 * Math.sin(this.angle / 180 * 3.14), weaponSite.y + 50 * Math.cos(this.angle / 180 * 3.14));
@@ -29,7 +28,7 @@ cc.Class({
     // 根据武器等级设置子弹等级
     setBullet (level) {
         this.bulletLevel = level;
-        this.node.getComponent(cc.Sprite).spriteFrame = this.game.atlas_spr.getSpriteFrame('bullet' + this.bulletLevel);
+        // this.node.getComponent(cc.Sprite).spriteFrame = this.game.atlas_spr.getSpriteFrame('bullet' + this.bulletLevel);
     },
 
     update (dt) {

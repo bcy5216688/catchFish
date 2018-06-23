@@ -131,12 +131,12 @@
       }
     ],
     "_prefab": null,
-    "_id": "514YeM7rpPwLF/AZZ4Dtdd",
+    "_id": "8bZQaEoVpALaPLdgAtV5ri",
     "_opacity": 255,
     "_color": {
       "__type__": "cc.Color",
-      "r": 8,
-      "g": 28,
+      "r": 255,
+      "g": 255,
       "b": 255,
       "a": 255
     },
@@ -176,10 +176,10 @@
     },
     "_enabled": true,
     "_spriteFrame": {
-      "__uuid__": "a23235d1-15db-4b95-8439-a2e005bfff91"
+      "__uuid__": "35c54a9f-711c-428d-ab45-b7f88ed8c3e3"
     },
     "_type": 0,
-    "_sizeMode": 0,
+    "_sizeMode": 1,
     "_fillType": 0,
     "_fillCenter": {
       "__type__": "cc.Vec2",
@@ -362,7 +362,7 @@
     },
     "_enabled": true,
     "prefab_bullet": {
-      "__uuid__": "124733b0-c72d-4ddb-ac93-6013a1069762"
+      "__uuid__": "cbc7cacc-38e7-429d-b7dc-d740cc0b00b4"
     },
     "prefab_weapon": {
       "__uuid__": "6fe8a172-1a28-4377-a605-f97fd487285c"
