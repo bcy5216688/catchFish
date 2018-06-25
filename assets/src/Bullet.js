@@ -49,6 +49,50 @@ cc.Class({
     },
 
     onCollisionEnter (other, self) {
+        switch (other.tag) {
+            case 1:
+                this.bulletLeftSceneCollision(other, self);
+                break;
+            case 2:
+                this.bulletRightSceneCollision(other, self);
+                break;
+            case 3:
+                this.bulletUpSceneCollision(other, self);
+                break;
+            case 4:
+                this.bulletDownSceneCollision(other, self);
+                break;
+            case 5:
+                this.bulletFishCollision(other, self);
+                break;
+        }
+    },
+
+    bulletLeftSceneCollision (other, self) {
+        // cc.log("collision left");
+        this.angle = -this.angle;
+        this.node.rotation = this.angle;
+    },
+
+    bulletRightSceneCollision (other, self) {
+        // cc.log("collision right");
+        this.angle = -this.angle;
+        this.node.rotation = this.angle;
+    },
+
+    bulletUpSceneCollision (other, self) {
+        // cc.log("collision up");
+        this.angle = 180 - this.angle;
+        this.node.rotation = this.angle;
+    },
+
+    bulletDownSceneCollision (other, self) {
+        // cc.log("collision down");
+        this.angle = 180 - this.angle;
+        this.node.rotation = this.angle;
+    },
+
+    bulletFishCollision (other, self) {
         // 矩形碰撞组件顶点坐标，左上，左下，右下，右上
         var posb = self.world.points;
         // 取左上和右上坐标计算中点当做碰撞中点

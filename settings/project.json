@@ -13,6 +13,12 @@
     ],
     [
       true,
+      false,
+      true
+    ],
+    [
+      false,
+      true,
       false
     ]
   ],
@@ -23,7 +29,8 @@
   "fit-width": false,
   "group-list": [
     "fish",
-    "bullet"
+    "bullet",
+    "scene"
   ],
   "simulator-orientation": false,
   "simulator-resolution": {
