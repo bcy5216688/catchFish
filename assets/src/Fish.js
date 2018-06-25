@@ -40,16 +40,16 @@ cc.Class({
     },
 
     spawnFish (game) {
-        let fishStr = game.fishTypes.length;
-        let randomFish = Math.floor(cc.random0To1() * fishStr);
+        var fishStr = game.fishTypes.length;
+        var randomFish = Math.floor(cc.random0To1() * fishStr);
         this.fishType = game.fishTypes[randomFish];
-        let pos = cc.p(-cc.random0To1() * 100 - 200, cc.randomMinus1To1() * 300 + 350);
+        var pos = cc.p(-cc.random0To1() * 100 - 200, cc.randomMinus1To1() * 300 + 350);
         this.node.position = pos;
-        let index = Math.floor(cc.random0To1() * this.bezierArray.length);
-        let bezier = this.bezierArray[index];
+        var index = Math.floor(cc.random0To1() * this.bezierArray.length);
+        var bezier = this.bezierArray[index];
         // 贝塞尔曲线第一个控制点，用来计算初始角度
-        let firstp = bezier[0];
-        let k = Math.atan((firstp.y) / (firstp.x));
+        var firstp = bezier[0];
+        var k = Math.atan((firstp.y) / (firstp.x));
         this.node.rotation = -k * 180 / 3.14;
         this.node.getComponent(cc.Sprite).spriteFrame = this.game.atlas_spr.getSpriteFrame(this.fishType.name + '_run_0');
         // 取出鱼的血量
@@ -68,15 +68,15 @@ cc.Class({
 
     // 重新设置碰撞区域
     changeCollider () {
-        let collider = this.node.getComponent(cc.BoxCollider);
+        var collider = this.node.getComponent(cc.BoxCollider);
         collider.size = this.node.getContentSize();
     },
 
     // 鱼走贝塞尔曲线
     fishRun (trace) {
-        let windowSize = cc.director.getWinSize();
-        let speed = cc.random0To1() * 10 + 10;
-        let bezerby = cc.bezierBy(speed, trace);
+        var windowSize = cc.director.getWinSize();
+        var speed = cc.random0To1() * 10 + 10;
+        var bezerby = cc.bezierBy(speed, trace);
         this.node.runAction(bezerby);
     },
 
@@ -86,14 +86,14 @@ cc.Class({
 
     // 更新鱼的角度
     updateDegree () {
-        let currentPos = this.node.getPosition();
+        var currentPos = this.node.getPosition();
         // 如果位移不超过1，不改变角度
         if (cc.pDistance(this.lastPosition, currentPos) < 1) {
             return;
         }
 
         // 计算角度
-        let degree;
+        var degree;
         if (currentPos.x - this.lastPosition.x == 0) {
             // 垂直
             if (currentPos.y - this.lastPosition.y > 0) {
@@ -115,12 +115,12 @@ cc.Class({
             // 停止贝塞尔曲线动作
             this.node.stopAllActions();
             //播放死亡动画
-            let animState = this.anim_fish.play(this.fishType.name + '_die');
+            var animState = this.anim_fish.play(this.fishType.name + '_die');
             // 被打死的动画播放完成之后回调
             animState.on('stop', this.dieCallback, this);
             // 播放金币动画
             // 转为世界坐标
-            // let fp = this.node.parent.convertToWorldSpaceAR(this.node.position);
+            // var fp = this.node.parent.convertToWorldSpaceAR(this.node.position);
             // this.game.gainCoins(fp, this.gold);
         } else {
             // 跑出屏幕的鱼自动回收
@@ -156,7 +156,7 @@ cc.Class({
     },
 
     onCollisionEnter (other, self) {
-        let bullet = other.node.getComponent("Bullet");
+        var bullet = other.node.getComponent("Bullet");
         this.hp -= bullet.getAttackValue();
         if (this.hp <= 0) {
             this.fishState = 0;
