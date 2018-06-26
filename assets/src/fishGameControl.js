@@ -45,6 +45,7 @@ cc.Class({
         this.weaponLayer = this.node.getChildByName("layer_weapon");
         this.netLayer = this.node.getChildByName("layer_net");
         this.fishLayer = this.node.getChildByName("layer_fish");
+        this.coinLayer = this.node.getChildByName("layer_coin");
     },
 
     initFishPool () {
@@ -91,7 +92,7 @@ cc.Class({
     },
 
     initWeapon () {
-        var weaponPosArr = [cc.p(280,0), cc.p(1000,0), cc.p(280,720), cc.p(1000,720)];
+        var weaponPosArr = [cc.p(384,0), cc.p(896,0), cc.p(896,720), cc.p(384,720)];
         for (var i = 0; i < weaponPosArr.length; i++) {
             var weaponBaseNode = cc.instantiate(this.prefab_weapon);
             weaponBaseNode.parent = this.weaponLayer;
@@ -103,6 +104,9 @@ cc.Class({
             if (i === 2 || i === 3) {
                 weaponBaseNode.rotation = 180;
             }
+
+            var scriptWeaponScript = weaponBaseNode.getComponent("Weapon");
+            scriptWeaponScript.initInfoNode(i)
         }
     },
 
