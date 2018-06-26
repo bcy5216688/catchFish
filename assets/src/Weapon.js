@@ -11,15 +11,28 @@ cc.Class({
             default: null,
             type: cc.Node,
         },
+        sprFrame_twoCannon: {
+            default: null,
+            type: cc.SpriteFrame,
+        },
+        sprFrame_thrCannon: {
+            default: null,
+            type: cc.SpriteFrame,
+        },
     },
 
     onLoad () {
-        this.curLevel = 1;
-        this.total = this.anim_weapon.getClips().length;
+        this.curPower = 10.00;
 
-        this.label_power = this.node.getChildByName("label_power");
+        this.label_power = this.node.getChildByName("label_power").getComponent(cc.Label);
+        this.label_power.string = this.curPower + "";
         this.nodeAdd = this.node.getChildByName("btn_add");
         this.nodeReduce = this.node.getChildByName("btn_reduce");
+        this.cannonSpr = this.node.getChildByName("spr_weapon").getComponent(cc.Sprite);
+    },
+
+    setGameControl (gameControl) {
+        this.gameControl = gameControl;
     },
 
     refreshBtnView (flag) {
@@ -38,30 +51,34 @@ cc.Class({
             nodeInfo.position = cc.p(276,0);
         } else if (index === 2) {
             nodeInfo.rotation = 180;
-            this.label_power.rotation = 180;
+            this.label_power.node.rotation = 180;
             nodeInfo.position = cc.p(-272,77);
         } else if (index === 3) {
             nodeInfo.rotation = 180;
-            this.label_power.rotation = 180;
+            this.label_power.node.rotation = 180;
             nodeInfo.position = cc.p(276,77);
         }
     },
 
-    plus () {
-        if (this.curLevel + 1 > this.total) {
-            this.curLevel = this.total;
-        } else {
-            this.curLevel++;
-        }
-        this.anim_weapon.play('weapon_level_' + this.curLevel);
+    btnOnAdd () {
+        this.curPower += 10;
+        if (this.curPower > 100)  this.curPower = 10.00;
+        this.changeCannon();
+        this.label_power.string = this.curPower + "";
     },
 
-    reduce () {
-        if (this.curLevel < 2) {
-            this.curLevel = 1;
+    btnOnReduce () {
+        this.curPower -= 10;
+        if (this.curPower < 10)  this.curPower = 100.00;
+        this.changeCannon();
+        this.label_power.string = this.curPower + "";
+    },
+
+    changeCannon () {
+        if (this.curPower > 50) {
+            this.cannonSpr.spriteFrame = this.sprFrame_thrCannon;
         } else {
-            this.curLevel--;
+            this.cannonSpr.spriteFrame = this.sprFrame_twoCannon;
         }
-        this.anim_weapon.play('weapon_level_' + this.curLevel);
     },
 });

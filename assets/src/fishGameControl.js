@@ -78,8 +78,8 @@ cc.Class({
             var radian = Math.atan((touchPos.x - weaponPos.x) / (touchPos.y - weaponPos.y));
             var degree = radian * 180 / 3.14;
             this.weaponNode.rotation = degree;
-            var bulletLevel = this.weaponNode.parent.getComponent("Weapon").curLevel;
-            this.shot(bulletLevel);
+            var curPower = this.weaponNode.parent.getComponent("Weapon").curPower;
+            this.shot(curPower);
         }, this);
 
         this.node.on(cc.Node.EventType.TOUCH_MOVE, function (event) {
@@ -106,11 +106,12 @@ cc.Class({
             }
 
             var scriptWeaponScript = weaponBaseNode.getComponent("Weapon");
-            scriptWeaponScript.initInfoNode(i)
+            scriptWeaponScript.setGameControl(this);
+            scriptWeaponScript.initInfoNode(i);
         }
     },
 
-    shot (level) {
+    shot (curPower) {
         var bullet = null;
         if (this.bulletPool.size() > 0) {
             bullet = this.bulletPool.get();
@@ -119,7 +120,7 @@ cc.Class({
         }
 
         var bulletScript = bullet.getComponent("Bullet");
-        bulletScript.shot(this, level);
+        bulletScript.shot(this, curPower);
     },
 
     creatFish () {        

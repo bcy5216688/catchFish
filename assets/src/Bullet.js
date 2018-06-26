@@ -2,6 +2,19 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        sprFrame_bulletTwo: {
+            default: null,
+            type: cc.SpriteFrame,
+        },
+        sprFrame_bulletThr: {
+            default: null,
+            type: cc.SpriteFrame,
+        },
+        spr_bullet: {
+            default: null,
+            type: cc.Sprite,
+        },
+
         speed: 80,
         angle: 0,         // 子弹初始角度  
         attack: 10,        // 子弹攻击力，基础攻击力
@@ -9,10 +22,10 @@ cc.Class({
     },
 
     onLoad () {      
-
+        this.curPower = 10;
     },
 
-    shot (game, level) { 
+    shot (game, curPower) { 
         this.game = game;
         // 启动update函数
         this.enabled = true;
@@ -20,15 +33,19 @@ cc.Class({
         this.angle = game.weaponNode.rotation;
         this.node.rotation = this.angle;
         var bpos = cc.p(weaponSite.x + 50 * Math.sin(this.angle / 180 * 3.14), weaponSite.y + 50 * Math.cos(this.angle / 180 * 3.14));
-        this.setBullet(level);
+        this.setBullet(curPower);
         this.node.position = bpos;
         this.node.parent = game.weaponLayer;
     },
 
     // 根据武器等级设置子弹等级
-    setBullet (level) {
-        this.bulletLevel = level;
-        // this.node.getComponent(cc.Sprite).spriteFrame = this.game.atlas_spr.getSpriteFrame('bullet' + this.bulletLevel);
+    setBullet (curPower) {
+        this.curPower = curPower;
+        if (this.curPower > 50) {
+            this.spr_bullet.spriteFrame = this.sprFrame_bulletThr;
+        } else {
+            this.spr_bullet.spriteFrame = this.sprFrame_bulletTwo;
+        }
     },
 
     update (dt) {
